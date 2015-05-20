@@ -1,0 +1,64 @@
+<html>
+<head>
+<script src="Notify.js" type="text/javascript"></script>
+<script>
+
+var t = 30*60;
+var dStart = new Date();
+
+var sTitolo = 'Eye Timer';
+var sPathIcon = 'eye.png';
+var sMessage = '';
+var sOnClick = 'http://kaptn.altervista.org/timer/timer.html';
+
+window.onload = function(){
+
+AskForPermission();
+
+}
+
+setInterval(function(){
+	var d = new Date();
+	var dNext = new Date(d.getTime() + (t*1000));
+	document.getElementById("time-now").innerHTML = d.toLocaleTimeString();
+	document.getElementById("time-next").innerHTML = dNext.toLocaleTimeString();
+	if (t === 0) {	
+	document.getElementById('audio').play();
+	notifyMe(sTitolo, sPathIcon, sMessage, sOnClick);
+	t = getTime();
+	}
+	t=t-1;
+},1000);
+
+function changeTime(sTime){
+	 t = getTime();
+}
+
+function getTime(){
+	var ttxt = document.getElementById('time').value;
+		
+	ttxt = ttxt * 60;
+	
+	if (ttxt > 0) {
+		return ttxt;
+	} else {
+	
+		return 0;
+}
+}
+
+</script>
+</head>
+<body>
+
+<div class="control-group">
+<div class="controls">
+<input id="time" name="time" type="number" value="30" min="1" onchange="changeTime(this);" class="input-large">
+</div> 
+</div> 
+<audio id="audio" src="alarm.wav" preload="auto"></audio>
+<div id="time-now"></div>
+<div id="time-next"></div>
+<div id="time-left"></div>
+</body>
+</html>
